@@ -1,5 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart';
+import 'package:photo_view/photo_view.dart';
 import 'dart:io';
 import 'bottom_sheet.dart';
 
@@ -60,12 +63,31 @@ class UploadImageItem extends StatelessWidget {
                             )
                           ],
                         ))
-                    : Image.file(
+                    :
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => HeroPhotoViewWrapper(
+                          imageProvider: FileImage(File(imageModel.imageFile.path)),
+                        ),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    child: Hero(
+                      tag: "someTag",
+                      child: Image.file(
                         new File(imageModel.imageFile.path),
                         width: 105,
                         height: 105,
                         fit: BoxFit.fill,
-                      )),
+                      ),
+                    ),
+                  ),
+                ),),
+
             Offstage(
               offstage: (imageModel == null),
               child: InkWell(
@@ -88,6 +110,39 @@ class UploadImageItem extends StatelessWidget {
   }
 }
 
+class HeroPhotoViewWrapper extends StatelessWidget {
+  const HeroPhotoViewWrapper({
+    this.imageProvider,
+    this.loadingBuilder,
+    this.backgroundDecoration,
+    this.minScale,
+    this.maxScale,
+  });
+
+  final ImageProvider imageProvider;
+  final LoadingBuilder loadingBuilder;
+  final Decoration backgroundDecoration;
+  final dynamic minScale;
+  final dynamic maxScale;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      constraints: BoxConstraints.expand(
+        height: MediaQuery.of(context).size.height,
+      ),
+      child: PhotoView(
+        imageProvider: imageProvider,
+        loadingBuilder: loadingBuilder,
+        backgroundDecoration: backgroundDecoration,
+        minScale: minScale,
+        maxScale: maxScale,
+        heroAttributes: const PhotoViewHeroAttributes(tag: "someTag"),
+      ),
+    );
+  }
+}
+
 class UcarImagePicker extends StatefulWidget {
   final String title;
   final int maxCount;
@@ -98,7 +153,7 @@ class UcarImagePicker extends StatefulWidget {
 }
 
 class _UcarImagePickerState extends State<UcarImagePicker> {
-  List _images = []; //保存添加的图片
+  List<UploadImageItem> _images = []; //保存添加的图片
   int currentIndex = 0;
   bool isDelete = false;
   @override
@@ -211,6 +266,9 @@ class _UcarImagePickerState extends State<UcarImagePicker> {
             spacing: 10,
             children: List.generate(_images.length, (i) {
               return _images[i];
+//              return  PhotoView(
+//                imageProvider: FileImage(File(_images[i].imageModel.imageFile.path)),
+//              );
             }),
           )
         ],
