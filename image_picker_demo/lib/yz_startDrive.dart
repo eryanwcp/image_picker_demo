@@ -34,15 +34,15 @@ class _StartDrivePageState extends State<StartDrivePage> {
               height: 10,
             ),
             UcarImagePicker(
-              maxCount: 3,
+              maxCount: 1,
               title: '上传图片测试1',
             ),
             Divider(
               height: 1,
             ),
             UcarImagePicker(
-              maxCount: 5,
-              title: '上传图片测试222',
+              maxCount: 9,
+              title: '上传图片测试9',
             ),
             CachedNetworkImage(
               imageUrl: "http://via.placeholder.com/350x150",

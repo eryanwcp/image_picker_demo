@@ -9,7 +9,7 @@ enum PickImageType {
 }
 
 class UploadImageModel {
-  final File imageFile;
+  final PickedFile imageFile;
   final int imageIndex;
 
   UploadImageModel(this.imageFile, this.imageIndex);
@@ -63,7 +63,7 @@ class UploadImageItem extends StatelessWidget {
                           ],
                         ))
                     : Image.file(
-                        imageModel.imageFile,
+                        new File(imageModel.imageFile.path),
                         width: 105,
                         height: 105,
                       )),
@@ -121,7 +121,7 @@ class _UcarImagePickerState extends State<UcarImagePicker> {
   }
 
   _getImage(PickImageType type) async {
-    var image = await ImagePicker.pickImage(
+    var image = await ImagePicker().getImage(
         source: type == PickImageType.gallery
             ? ImageSource.gallery
             : ImageSource.camera);
@@ -164,7 +164,7 @@ class _UcarImagePickerState extends State<UcarImagePicker> {
 
   /*拍照*/
   _takePhoto() async {
-    var image = await ImagePicker.pickImage(source: ImageSource.camera);
+    var image = await ImagePicker().getImage(source: ImageSource.camera);
     UploadImageItem();
     setState(() {
       _images.insert(
@@ -177,7 +177,7 @@ class _UcarImagePickerState extends State<UcarImagePicker> {
 
   /*相册*/
   _openGallery() async {
-    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    var image = await ImagePicker().getImage(source: ImageSource.gallery);
     _images.insert(
         _images.length - 1,
         UploadImageItem(
