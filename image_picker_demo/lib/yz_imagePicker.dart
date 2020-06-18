@@ -257,9 +257,6 @@ class _UcarImagePickerState extends State<UcarImagePicker> {
             spacing: 10,
             children: List.generate(_images.length, (i) {
               return _images[i];
-//              return  PhotoView(
-//                imageProvider: FileImage(File(_images[i].imageModel.imageFile.path)),
-//              );
             }),
           )
         ],
