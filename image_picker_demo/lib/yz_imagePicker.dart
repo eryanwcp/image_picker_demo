@@ -98,7 +98,6 @@ class UploadImageItem extends StatelessWidget {
                     color: Colors.redAccent
                 ),
                 onTap: () {
-                  print('点击了删除');
                   if (imageModel != null) {
                     deleteFun(this);
                   }
@@ -163,10 +162,8 @@ class _UcarImagePickerState extends State<UcarImagePicker> {
     _images.add(UploadImageItem(
       callBack: (int i) {
         if (i == 0) {
-          print('打开相机');
           _getImage(PickImageType.camera);
         } else {
-          print('打开相册');
           _getImage(PickImageType.gallery);
         }
       },
@@ -180,30 +177,24 @@ class _UcarImagePickerState extends State<UcarImagePicker> {
             : ImageSource.camera);
     UploadImageItem();
     setState(() {
-      print('add image at $currentIndex');
       _images.insert(
           _images.length - 1,
           UploadImageItem(
             imageModel: UploadImageModel(image, currentIndex),
             deleteFun: (UploadImageItem item) {
-              print('remove image at ${item.imageModel.imageIndex}');
               bool result = _images.remove(item);
-              print('left is ${_images.length}');
               if (_images.length == widget.maxCount -1 && isDelete == false) {
                 isDelete = true;
                 _images.add(UploadImageItem(
                   callBack: (int i) {
                     if (i == 0) {
-                      print('打开相机');
                       _getImage(PickImageType.camera);
                     } else {
-                      print('打开相册');
                       _getImage(PickImageType.gallery);
                     }
                   },
                 ));
               }
-              print('remove result is $result');
               setState(() {});
             },
           ));
