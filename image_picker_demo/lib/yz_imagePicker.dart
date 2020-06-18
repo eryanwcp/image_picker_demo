@@ -51,9 +51,7 @@ class UploadImageItem extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Center(
-                              child: Image.asset(
-                                'resources/image_picker.png',
-                              ),
+                              child: Icon(Icons.camera_alt),
                             ),
                             Text(
                               '上传',
@@ -66,16 +64,16 @@ class UploadImageItem extends StatelessWidget {
                         new File(imageModel.imageFile.path),
                         width: 105,
                         height: 105,
+                        fit: BoxFit.fill,
                       )),
             Offstage(
               offstage: (imageModel == null),
               child: InkWell(
                 highlightColor: Colors.transparent,
                 splashColor: Colors.transparent,
-                child: Image.asset(
-                  'resources/删除图片.png',
-                  width: 16.0,
-                  height: 16.0,
+                child: const Icon(
+                    Icons.close,
+                    color: Colors.redAccent
                 ),
                 onTap: () {
                   print('点击了删除');
